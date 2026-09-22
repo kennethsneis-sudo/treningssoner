@@ -1,0 +1,248 @@
+{
+ "kilde": "treningssoner_90d_2026-09.xlsx",
+ "periods": [
+  {
+   "key": "90",
+   "label": "Siste 90 dager",
+   "from": "2026-06-22",
+   "to": "2026-09-20",
+   "n": 88,
+   "ftp": 325,
+   "tillit": null,
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 180 W",
+     "hr": "<120",
+     "alpha1": "1,5–1,2"
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "180–260 W",
+     "hr": "120–140",
+     "alpha1": "1,2–0,9"
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": "140–142",
+     "alpha1": "0,88"
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–310 W",
+     "hr": "142–165",
+     "alpha1": null
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "310–325 W",
+     "hr": "165–168",
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "325 W",
+     "hr": "174",
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "325–350 W",
+     "hr": "168–178",
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "350–415 W",
+     "hr": "178–188",
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "415–735 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 735 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  },
+  {
+   "key": "45",
+   "label": "Periode −45",
+   "from": "2026-05-08",
+   "to": "2026-09-05",
+   "n": 117,
+   "ftp": 325,
+   "tillit": null,
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 180 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "180–260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–310 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "310–325 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "325 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "325–350 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "350–415 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "415–735 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 735 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  },
+  {
+   "key": "90b",
+   "label": "Periode −90",
+   "from": "2026-03-24",
+   "to": "2026-06-22",
+   "n": 94,
+   "ftp": 315,
+   "tillit": "LAV TILLIT (tynt foret)",
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 175 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "175–260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–300 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "300–315 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "315 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "315–340 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "340–405 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "405–730 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 730 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  }
+ ]
+}

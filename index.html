@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E141A">
+<title>Treningssoner</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Soner">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{min-height:100vh;background:#0E141A;color:#E8EDF2;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 0 40px;-webkit-tap-highlight-color:transparent}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .wrap{max-width:460px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 16px 0}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .title{font-size:19px;font-weight:700;letter-spacing:-.2px}
+  .sub{font-size:12px;color:#6c7b89}
+  button{font:inherit;cursor:pointer;color:#C6D2DC}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#141c24;border:1px solid #283642;border-radius:11px;padding:3px;margin-bottom:14px}
+  .seg button{height:32px;border:0;border-radius:8px;background:transparent;font-size:12.5px;font-weight:600;color:#8d9dab}
+  .seg button.on{background:#23303b;color:#E8EDF2}
+
+  .hero{border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#1a242e 0%,#141c24 100%);box-shadow:0 0 0 1px #0b1117,0 10px 30px -18px #FFD000;border:1px solid #FFD00040}
+  .hero .top{height:4px;background:#FFD000}
+  .hero .body{padding:16px 18px 18px}
+  .meta{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .eyebrow{font-size:12px;letter-spacing:1.5px;color:#7d8c9a;text-transform:uppercase}
+  .warn{font-size:10.5px;letter-spacing:.5px;color:#E0913C;border:1px solid #E0913C66;border-radius:6px;padding:2px 7px;text-transform:uppercase;white-space:nowrap}
+  .anch{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+  .anch .k{font-size:11px;letter-spacing:1.2px;color:#6c7b89;text-transform:uppercase}
+  .anch .v{font-size:40px;font-weight:700;line-height:1.05;color:#EDF2F6;margin-top:4px}
+  .anch .v small{font-size:16px;font-weight:600;color:#8DA0AE;margin-left:3px}
+  .anch .s{font-size:12.5px;color:#8DA0AE;margin-top:4px}
+  .anch .d{font-size:12px;margin-top:2px}
+  .per{margin-top:14px;font-size:12.5px;color:#8DA0AE}
+
+  .tbl{margin-top:16px}
+  .thead,.row{display:grid;grid-template-columns:1fr 80px 60px 72px;align-items:center;gap:8px}
+  .tbl.pw .thead,.tbl.pw .row{grid-template-columns:1fr 104px 70px}
+  .thead{font-size:11px;letter-spacing:1.2px;color:#FFFFFF;text-transform:uppercase;padding:8px 11px 8px 14px;background:#2E75B6;border-radius:10px;margin-bottom:4px}
+  .thead span,.row span{text-align:right;white-space:nowrap}
+  .thead span:first-child,.row .nm{text-align:left}
+  .thead .a{text-transform:none}
+  .row{position:relative;border-radius:10px;padding:10px 11px 10px 14px;margin-bottom:4px;border:1px solid #161f27;background:#111820}
+  .row .bar{position:absolute;left:0;top:7px;bottom:7px;width:4px;border-radius:0 3px 3px 0}
+  .row .nm{font-size:14px;font-weight:700;color:#1B2430;white-space:nowrap}
+  .row .pw{font-size:13.5px;color:#1B2430;font-weight:700}
+  .row .hr,.row .a1,.row .dl{font-size:12px;color:#2C3947;font-weight:600}
+  .row.pt .nm,.row.pt .pw{font-weight:800}
+  .row.lt .nm,.row.lt .pw{color:#FFFFFF}
+  .row.lt .hr,.row.lt .a1,.row.lt .dl{color:#F3D9D6}
+  .row .none{color:#1B243055!important}
+  .row.lt .none{color:#FFFFFF66!important}
+  .row .up{color:#1E6B45!important}.row .dn{color:#9B1C1C!important}
+  .row.lt .up,.row.lt .dn{color:#FFFFFF!important}
+  .up{color:#4FB58C!important}.dn{color:#E55C3C!important}
+  .none{color:#46535f!important}
+
+  .foot{margin-top:22px;padding-top:14px;border-top:1px solid #1a242d;font-size:11.5px;color:#586773;line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .foot .rf{background:#141c24;border:1px solid #283642;border-radius:8px;padding:5px 10px;color:#9fb0bd;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const BOOT = {
+ "kilde": "treningssoner_90d_202609.xlsx",
+ "periods": [
+  {
+   "key": "90",
+   "label": "Siste 90 dager",
+   "to": "2026-09-06",
+   "n": 84,
+   "ftp": 320,
+   "tillit": null,
+   "from": "2026-06-08",
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 180 W",
+     "hr": "<120",
+     "alpha1": "<1.23"
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "180–260 W",
+     "hr": "120–140",
+     "alpha1": "0.96–1.23"
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": "140-142",
+     "alpha1": "0.96"
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–305 W",
+     "hr": "143–166",
+     "alpha1": "0.65–0.95"
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "305–320 W",
+     "hr": "166–168",
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "320 W",
+     "hr": "172-174",
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "320–345 W",
+     "hr": "168–176",
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "345–410 W",
+     "hr": "177-188",
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "410–735 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 735 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  },
+  {
+   "key": "45",
+   "label": "Periode −45",
+   "to": "2026-08-22",
+   "n": 121,
+   "ftp": 325,
+   "tillit": null,
+   "from": "2026-04-24",
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 180 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "180–260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–310 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "310–325 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "325 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "325–350 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "350–415 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "415–735 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 735 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  },
+  {
+   "key": "90b",
+   "label": "Periode −90",
+   "to": "2026-06-08",
+   "n": 93,
+   "ftp": 310,
+   "tillit": "LAV TILLIT (tynt foret)",
+   "from": "2026-03-10",
+   "zones": [
+    {
+     "sone": "Recovery",
+     "punkt": false,
+     "power": "< 170 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Endurance",
+     "punkt": false,
+     "power": "170–260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT1",
+     "punkt": true,
+     "power": "260 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Tempo",
+     "punkt": false,
+     "power": "260–295 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sweet Spot",
+     "punkt": false,
+     "power": "295–310 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "LT2 / FTP",
+     "punkt": true,
+     "power": "310 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Terskel",
+     "punkt": false,
+     "power": "310–335 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "VO2",
+     "punkt": false,
+     "power": "335–395 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "FRC",
+     "punkt": false,
+     "power": "395–730 W",
+     "hr": null,
+     "alpha1": null
+    },
+    {
+     "sone": "Sprint",
+     "punkt": false,
+     "power": "> 730 W",
+     "hr": null,
+     "alpha1": null
+    }
+   ]
+  }
+ ]
+};  // innebygd reserve – overstyres av live ./soner.json
+const SRC = "./soner.json";
+let DATA = BOOT;
+let fetchedAt = null, offline = false;
+let cur = "90";
+const MND=["jan","feb","mar","apr","mai","jun","jul","aug","sep","okt","nov","des"];
+const COL={"Recovery":"#D9E1F2","Endurance":"#E2EFDA","LT1":"#FFD000","Tempo":"#FFEB9C","Sweet Spot":"#FFC7CE","LT2 / FTP":"#FFD000","Terskel":"#F4B942","VO2":"#E06C75","FRC":"#C0392B","Sprint":"#7B241C"};
+const LIGHT_TXT=new Set(["FRC","Sprint"]);
+const SHORT={"90":"Siste 90 d","45":"−45","90b":"−90"};
+function pd(iso){const[,m,d]=iso.split("-").map(Number);return `${d}. ${MND[m-1]}`}
+function nb(s){return s==null?"–":String(s).replace(/(\d)\.(\d)/g,"$1,$2").replace(/(\d)-(\d)/g,"$1–$2").replace(/\s*W$/,"")}
+function nums(s){return s?(String(s).match(/\d+/g)||[]).map(Number):[]}
+function sgn(x){return x>0?`+${x}`:x<0?`−${Math.abs(x)}`:"0"}
+function delta(a,b){ // a = valgt periode, b = siste 90
+  const x=nums(a),y=nums(b); if(!x.length||x.length!==y.length) return {t:"–",c:"none"};
+  const d=x.map((v,i)=>v-y[i]); if(d.every(v=>v===0)) return {t:"=",c:"none"};
+  return {t:d.map(sgn).join(" / "),c:d.every(v=>v>=0)?"up":d.every(v=>v<=0)?"dn":""};
+}
+function render(){
+  const P=DATA.periods.find(p=>p.key===cur), B=DATA.periods.find(p=>p.key==="90");
+  const main=cur==="90";
+  const lt1=P.zones.find(z=>z.sone==="LT1"), lt1b=B.zones.find(z=>z.sone==="LT1");
+  const dF=P.ftp-B.ftp, dL=nums(lt1.power)[0]-nums(lt1b.power)[0];
+  const dline=(d)=>main?"":`<div class="d mono ${d>0?"up":d<0?"dn":"none"}">${d===0?"= siste 90 d":sgn(d)+" W mot siste 90 d"}</div>`;
+  const hero=`<div class="hero"><div class="top"></div><div class="body">
+    <div class="meta"><div class="eyebrow mono">${P.label}</div>${P.tillit?`<span class="warn mono">Lav tillit</span>`:""}</div>
+    <div class="anch">
+      <div><div class="k mono">LT1</div><div class="v mono">${nums(lt1.power)[0]}<small>W</small></div>
+        ${main?`<div class="s mono">HR ${nb(lt1.hr)} · α1 ${nb(lt1.alpha1)}</div>`:""}${dline(dL)}</div>
+      <div><div class="k mono">FTP / LT2</div><div class="v mono">${P.ftp}<small>W</small></div>
+        ${main?`<div class="s mono">HR ${nb(B.zones.find(z=>z.sone==="LT2 / FTP").hr)}</div>`:""}${dline(dF)}</div>
+    </div>
+    <div class="per mono">${pd(P.from)} – ${pd(P.to)} ${P.to.slice(0,4)} · ${P.n} økter</div>
+  </div></div>`;
+  const head=main?`<div class="thead mono"><span>Sone</span><span>Watt</span><span>HR</span><span class="a">α1</span></div>`
+                  :`<div class="thead mono"><span>Sone</span><span>Watt</span><span>Δ 90 d</span></div>`;
+  const rows=P.zones.map((z,i)=>{
+    const c=COL[z.sone]||"#5C6B78", nm=z.sone==="LT2 / FTP"?"LT2 / FTP":z.sone;
+    const tail=main?`<span class="hr mono ${z.hr?"":"none"}">${nb(z.hr)}</span><span class="a1 mono ${z.alpha1?"":"none"}">${nb(z.alpha1)}</span>`
+      :(()=>{const d=delta(z.power,B.zones[i].power);return `<span class="dl mono ${d.c}">${d.t}</span>`})();
+    return `<div class="row${z.punkt?" pt":""}${LIGHT_TXT.has(z.sone)?" lt":""}" style="background:${c};border-color:${c}">
+      <span class="nm">${nm}</span><span class="pw mono">${nb(z.power)}</span>${tail}</div>`;
+  }).join("");
+  document.getElementById("app").innerHTML=`
+    <div class="topbar"><div><div class="title">Treningssoner</div><div class="sub mono">treningssoner_90d · watt i W</div></div></div>
+    <div class="seg">${DATA.periods.map(p=>`<button class="${p.key===cur?"on":""}" data-k="${p.key}">${SHORT[p.key]}</button>`).join("")}</div>
+    ${hero}
+    <div class="tbl${main?"":" pw"}">${head}${rows}</div>
+    <div class="foot"><span class="mono">${offline?"Frakoblet · viser lagrede soner":(fetchedAt?`Soner hentet ${fetchedAt}`:"Innebygde soner")}</span><button class="rf mono" data-go="refresh">Oppdater</button></div>`;
+  document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{cur=b.dataset.k;render()});
+  document.querySelectorAll("[data-go=refresh]").forEach(b=>b.onclick=()=>loadLive());
+}
+function valid(d){return d&&Array.isArray(d.periods)&&d.periods.some(p=>p.key==="90")&&d.periods.every(p=>Array.isArray(p.zones)&&p.zones.length)}
+async function loadLive(){
+  try{
+    const r=await fetch(SRC+"?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw 0;
+    const d=await r.json(); if(!valid(d))throw 0;
+    DATA=d; offline=false;
+    const n=new Date(); fetchedAt=`${String(n.getHours()).padStart(2,"0")}:${String(n.getMinutes()).padStart(2,"0")}`;
+    try{localStorage.setItem("soner_cache",JSON.stringify({d,at:fetchedAt}))}catch(e){}
+  }catch(e){
+    try{const c=JSON.parse(localStorage.getItem("soner_cache")||"null"); if(c&&valid(c.d)){DATA=c.d;fetchedAt=c.at}}catch(e2){}
+    offline=true;
+  }
+  if(!DATA.periods.some(p=>p.key===cur))cur="90";
+  render();
+}
+try{const c=JSON.parse(localStorage.getItem("soner_cache")||"null"); if(c&&valid(c.d)){DATA=c.d;fetchedAt=c.at}}catch(e){}
+render();
+loadLive();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadLive()});
+if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
+</script>
+</body>
+</html>
