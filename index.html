@@ -23,6 +23,9 @@
   .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#141c24;border:1px solid #283642;border-radius:11px;padding:3px;margin-bottom:14px}
   .seg button{height:32px;border:0;border-radius:8px;background:transparent;font-size:12.5px;font-weight:600;color:#8d9dab}
   .seg button.on{background:#23303b;color:#E8EDF2}
+  .sport{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;background:#141c24;border:1px solid #283642;border-radius:10px;padding:3px}
+  .sport button{height:28px;padding:0 12px;border:0;border-radius:7px;background:transparent;font-size:12px;font-weight:600;color:#8d9dab}
+  .sport button.on{background:#23303b;color:#E8EDF2}
 
   .hero{border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#1a242e 0%,#141c24 100%);box-shadow:0 0 0 1px #0b1117,0 10px 30px -18px #FFD000;border:1px solid #FFD00040}
   .hero .top{height:4px;background:#FFD000}
@@ -41,6 +44,7 @@
   .tbl{margin-top:16px}
   .thead,.row{display:grid;grid-template-columns:1fr 80px 60px 72px;align-items:center;gap:8px}
   .tbl.pw .thead,.tbl.pw .row{grid-template-columns:1fr 104px 70px}
+  .tbl.lp .thead,.tbl.lp .row{grid-template-columns:1fr 104px}
   .thead{font-size:11px;letter-spacing:1.2px;color:#FFFFFF;text-transform:uppercase;padding:8px 11px 8px 14px;background:#2E75B6;border-radius:10px;margin-bottom:4px}
   .thead span,.row span{text-align:right;white-space:nowrap}
   .thead span:first-child,.row .nm{text-align:left}
@@ -313,15 +317,30 @@ const BOOT = {
     }
    ]
   }
- ]
+ ],
+ "lop": {
+  "zones": [
+   {"sone": "Rolig",     "punkt": false, "hr": "<135"},
+   {"sone": "Endurance", "punkt": false, "hr": "135–148"},
+   {"sone": "LT1",       "punkt": true,  "hr": "150"},
+   {"sone": "Tempo",     "punkt": false, "hr": "150–165"},
+   {"sone": "Terskel",   "punkt": false, "hr": "165–176"},
+   {"sone": "LT2",       "punkt": true,  "hr": "174"},
+   {"sone": "Over LT2",  "punkt": false, "hr": ">176"}
+  ]
+ }
 };  // innebygd reserve – overstyres av live ./soner.json
 const SRC = "./soner.json";
 let DATA = BOOT;
 let fetchedAt = null, offline = false;
 let cur = "90";
+let sport = "sykkel";
 const MND=["jan","feb","mar","apr","mai","jun","jul","aug","sep","okt","nov","des"];
 const COL={"Recovery":"#D9E1F2","Endurance":"#E2EFDA","LT1":"#FFD000","Tempo":"#FFEB9C","Sweet Spot":"#FFC7CE","LT2 / FTP":"#FFD000","Terskel":"#F4B942","VO2":"#E06C75","FRC":"#C0392B","Sprint":"#7B241C"};
 const LIGHT_TXT=new Set(["FRC","Sprint"]);
+const COL_LOP={"Rolig":"#D9E1F2","Endurance":"#E2EFDA","LT1":"#FFD000","Tempo":"#FFEB9C","Terskel":"#F4B942","LT2":"#FFD000","Over LT2":"#E06C75"};
+function validLop(l){return l&&Array.isArray(l.zones)&&l.zones.length>0&&l.zones.every(z=>z&&z.sone&&z.hr!=null)}
+function lopData(){return validLop(DATA.lop)?DATA.lop:BOOT.lop}
 const SHORT={"90":"Siste 90 d","45":"−45","90b":"−90"};
 function pd(iso){const[,m,d]=iso.split("-").map(Number);return `${d}. ${MND[m-1]}`}
 function nb(s){return s==null?"–":String(s).replace(/(\d)\.(\d)/g,"$1,$2").replace(/(\d)-(\d)/g,"$1–$2").replace(/\s*W$/,"")}
@@ -332,7 +351,36 @@ function delta(a,b){ // a = valgt periode, b = siste 90
   const d=x.map((v,i)=>v-y[i]); if(d.every(v=>v===0)) return {t:"=",c:"none"};
   return {t:d.map(sgn).join(" / "),c:d.every(v=>v>=0)?"up":d.every(v=>v<=0)?"dn":""};
 }
+function topbar(){
+  return `<div class="topbar"><div><div class="title">Treningssoner</div><div class="sub mono">${sport==="lop"?"løpesoner · puls i bpm":"treningssoner_90d · watt i W"}</div></div>
+    <div class="sport mono"><button class="${sport==="sykkel"?"on":""}" data-s="sykkel">Sykkel</button><button class="${sport==="lop"?"on":""}" data-s="lop">Løp</button></div></div>`;
+}
+function foot(){
+  return `<div class="foot"><span class="mono">${offline?"Frakoblet · viser lagrede soner":(fetchedAt?`Soner hentet ${fetchedAt}`:"Innebygde soner")}</span><button class="rf mono" data-go="refresh">Oppdater</button></div>`;
+}
+function bind(){
+  document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{cur=b.dataset.k;render()});
+  document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{sport=b.dataset.s;try{localStorage.setItem("soner_sport",sport)}catch(e){};render()});
+  document.querySelectorAll("[data-go=refresh]").forEach(b=>b.onclick=()=>loadLive());
+}
+function renderLop(){
+  const Z=lopData().zones;
+  const l1=Z.find(z=>z.sone==="LT1"), l2=Z.find(z=>z.sone==="LT2");
+  const hero=`<div class="hero"><div class="top"></div><div class="body">
+    <div class="meta"><div class="eyebrow mono">Løp</div></div>
+    <div class="anch">
+      <div><div class="k mono">LT1</div><div class="v mono">${l1?nb(l1.hr):"–"}<small>bpm</small></div></div>
+      <div><div class="k mono">LT2</div><div class="v mono">${l2?nb(l2.hr):"–"}<small>bpm</small></div></div>
+    </div>
+  </div></div>`;
+  const rows=Z.map(z=>{const c=COL_LOP[z.sone]||"#5C6B78";
+    return `<div class="row${z.punkt?" pt":""}" style="background:${c};border-color:${c}"><span class="nm">${z.sone}</span><span class="pw mono">${nb(z.hr)}</span></div>`}).join("");
+  document.getElementById("app").innerHTML=`${topbar()}${hero}
+    <div class="tbl lp"><div class="thead mono"><span>Sone</span><span>Puls</span></div>${rows}</div>${foot()}`;
+  bind();
+}
 function render(){
+  if(sport==="lop")return renderLop();
   const P=DATA.periods.find(p=>p.key===cur), B=DATA.periods.find(p=>p.key==="90");
   const main=cur==="90";
   const lt1=P.zones.find(z=>z.sone==="LT1"), lt1b=B.zones.find(z=>z.sone==="LT1");
@@ -358,13 +406,12 @@ function render(){
       <span class="nm">${nm}</span><span class="pw mono">${nb(z.power)}</span>${tail}</div>`;
   }).join("");
   document.getElementById("app").innerHTML=`
-    <div class="topbar"><div><div class="title">Treningssoner</div><div class="sub mono">treningssoner_90d · watt i W</div></div></div>
+    ${topbar()}
     <div class="seg">${DATA.periods.map(p=>`<button class="${p.key===cur?"on":""}" data-k="${p.key}">${SHORT[p.key]}</button>`).join("")}</div>
     ${hero}
     <div class="tbl${main?"":" pw"}">${head}${rows}</div>
-    <div class="foot"><span class="mono">${offline?"Frakoblet · viser lagrede soner":(fetchedAt?`Soner hentet ${fetchedAt}`:"Innebygde soner")}</span><button class="rf mono" data-go="refresh">Oppdater</button></div>`;
-  document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{cur=b.dataset.k;render()});
-  document.querySelectorAll("[data-go=refresh]").forEach(b=>b.onclick=()=>loadLive());
+    ${foot()}`;
+  bind();
 }
 function valid(d){return d&&Array.isArray(d.periods)&&d.periods.some(p=>p.key==="90")&&d.periods.every(p=>Array.isArray(p.zones)&&p.zones.length)}
 async function loadLive(){
@@ -383,6 +430,7 @@ async function loadLive(){
   render();
 }
 try{const c=JSON.parse(localStorage.getItem("soner_cache")||"null"); if(c&&valid(c.d)){DATA=c.d;fetchedAt=c.at}}catch(e){}
+try{if(localStorage.getItem("soner_sport")==="lop")sport="lop"}catch(e){}
 render();
 loadLive();
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadLive()});
