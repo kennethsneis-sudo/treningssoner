@@ -7,20 +7,20 @@
    "from": "2026-08-10",
    "to": "2026-11-08",
    "n": 80,
-   "ftp": 310,
+   "ftp": 315,
    "tillit": null,
    "zones": [
     {
      "sone": "Recovery",
      "punkt": false,
-     "power": "< 170 W",
+     "power": "< 175 W",
      "hr": "<120",
      "alpha1": "1,5–1,2"
     },
     {
      "sone": "Endurance",
      "punkt": false,
-     "power": "170–260 W",
+     "power": "175–260 W",
      "hr": "120–140",
      "alpha1": "1,2–0,9"
     },
@@ -34,42 +34,42 @@
     {
      "sone": "Tempo",
      "punkt": false,
-     "power": "260–295 W",
+     "power": "260–300 W",
      "hr": "142–165",
      "alpha1": null
     },
     {
      "sone": "Sweet Spot",
      "punkt": false,
-     "power": "295–310 W",
+     "power": "300–315 W",
      "hr": "165–168",
      "alpha1": null
     },
     {
      "sone": "LT2 / FTP",
      "punkt": true,
-     "power": "310 W",
+     "power": "315 W",
      "hr": "174",
      "alpha1": null
     },
     {
      "sone": "Terskel",
      "punkt": false,
-     "power": "310–335 W",
+     "power": "315–340 W",
      "hr": "168–178",
      "alpha1": null
     },
     {
      "sone": "VO2",
      "punkt": false,
-     "power": "335–395 W",
+     "power": "340–405 W",
      "hr": "178–188",
      "alpha1": null
     },
     {
      "sone": "FRC",
      "punkt": false,
-     "power": "395–735 W",
+     "power": "405–735 W",
      "hr": null,
      "alpha1": null
     },
@@ -88,7 +88,7 @@
    "from": "2026-06-26",
    "to": "2026-10-24",
    "n": 107,
-   "ftp": 325,
+   "ftp": 320,
    "tillit": null,
    "zones": [
     {
@@ -115,42 +115,42 @@
     {
      "sone": "Tempo",
      "punkt": false,
-     "power": "260–310 W",
+     "power": "260–305 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "Sweet Spot",
      "punkt": false,
-     "power": "310–325 W",
+     "power": "305–320 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "LT2 / FTP",
      "punkt": true,
-     "power": "325 W",
+     "power": "320 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "Terskel",
      "punkt": false,
-     "power": "325–350 W",
+     "power": "320–345 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "VO2",
      "punkt": false,
-     "power": "350–415 W",
+     "power": "345–410 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "FRC",
      "punkt": false,
-     "power": "415–735 W",
+     "power": "410–735 W",
      "hr": null,
      "alpha1": null
     },
@@ -169,20 +169,20 @@
    "from": "2026-05-12",
    "to": "2026-08-10",
    "n": 88,
-   "ftp": 330,
+   "ftp": 320,
    "tillit": "LAV TILLIT (tynt foret)",
    "zones": [
     {
      "sone": "Recovery",
      "punkt": false,
-     "power": "< 185 W",
+     "power": "< 180 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "Endurance",
      "punkt": false,
-     "power": "185–255 W",
+     "power": "180–255 W",
      "hr": null,
      "alpha1": null
     },
@@ -196,42 +196,42 @@
     {
      "sone": "Tempo",
      "punkt": false,
-     "power": "255–315 W",
+     "power": "255–305 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "Sweet Spot",
      "punkt": false,
-     "power": "315–330 W",
+     "power": "305–320 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "LT2 / FTP",
      "punkt": true,
-     "power": "330 W",
+     "power": "320 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "Terskel",
      "punkt": false,
-     "power": "330–355 W",
+     "power": "320–345 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "VO2",
      "punkt": false,
-     "power": "355–420 W",
+     "power": "345–410 W",
      "hr": null,
      "alpha1": null
     },
     {
      "sone": "FRC",
      "punkt": false,
-     "power": "420–735 W",
+     "power": "410–735 W",
      "hr": null,
      "alpha1": null
     },
