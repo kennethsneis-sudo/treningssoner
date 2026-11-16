@@ -20,21 +20,21 @@
     {
      "sone": "Endurance",
      "punkt": false,
-     "power": "175–265 W",
+     "power": "175–260 W",
      "hr": "120–140",
      "alpha1": "1,2–0,9"
     },
     {
      "sone": "LT1",
      "punkt": true,
-     "power": "265 W",
+     "power": "260 W",
      "hr": "140–142",
      "alpha1": "0,88"
     },
     {
      "sone": "Tempo",
      "punkt": false,
-     "power": "265–300 W",
+     "power": "260–300 W",
      "hr": "142–165",
      "alpha1": null
     },
