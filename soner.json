@@ -4,9 +4,9 @@
   {
    "key": "90",
    "label": "Siste 90 dager",
-   "from": "2026-08-10",
-   "to": "2026-11-08",
-   "n": 80,
+   "from": "2026-08-17",
+   "to": "2026-11-15",
+   "n": 79,
    "ftp": 315,
    "tillit": null,
    "zones": [
@@ -20,21 +20,21 @@
     {
      "sone": "Endurance",
      "punkt": false,
-     "power": "175–260 W",
+     "power": "175–265 W",
      "hr": "120–140",
      "alpha1": "1,2–0,9"
     },
     {
      "sone": "LT1",
      "punkt": true,
-     "power": "260 W",
+     "power": "265 W",
      "hr": "140–142",
      "alpha1": "0,88"
     },
     {
      "sone": "Tempo",
      "punkt": false,
-     "power": "260–300 W",
+     "power": "265–300 W",
      "hr": "142–165",
      "alpha1": null
     },
@@ -85,9 +85,9 @@
   {
    "key": "45",
    "label": "Periode −45",
-   "from": "2026-06-26",
-   "to": "2026-10-24",
-   "n": 107,
+   "from": "2026-07-03",
+   "to": "2026-10-31",
+   "n": 106,
    "ftp": 320,
    "tillit": null,
    "zones": [
@@ -166,9 +166,9 @@
   {
    "key": "90b",
    "label": "Periode −90",
-   "from": "2026-05-12",
-   "to": "2026-08-10",
-   "n": 88,
+   "from": "2026-05-19",
+   "to": "2026-08-17",
+   "n": 89,
    "ftp": 320,
    "tillit": "LAV TILLIT (tynt foret)",
    "zones": [
